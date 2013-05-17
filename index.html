@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hexer // Turn a string into a web color.</title>
+    <link rel="stylesheet" href="normalize.css" type="text/css" />
+    <link rel="stylesheet" href="main.css" type="text/css" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Exo:300,300italic,900italic' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+    <script type="text/javascript">
+      function HexerController($scope) {
+        $scope.changeColor = function() {
+          var color = document.getElementById("color").value;
+          color = String(CryptoJS.SHA256(color));
+          color = "#" + color.substring(0,6);
+          document.getElementById("main").style.background = color;
+          
+          document.getElementById("hex").innerHTML = color;
+        };
+      }
+    </script>
+  </head>
+  <body id="main">
+    <div id="box" ng-controller="HexerController">
+      <div>
+        <a id="h1" href="/"><h1>Hexer</h1></a>
+        <h2>The text you enter is encrypted using the <a target="_blank" href="http://en.wikipedia.org/wiki/SHA-2">SHA-256</a> algorithm and the first five digits of the result are used as a <a target="_blank" href="http://en.wikipedia.org/wiki/Web_colors">hex color code</a>.</h2>
+        <form ng-submit="changeColor()">
+          <label>Text:</label>
+          <input id="color" type="text" ng-model="yourName" placeholder="">
+          <div><input type="submit" value="Hex it:"> <span id="hex"> </span></div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
